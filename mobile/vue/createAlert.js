@@ -1,0 +1,3 @@
+var createAlert = new Vue({
+
+});

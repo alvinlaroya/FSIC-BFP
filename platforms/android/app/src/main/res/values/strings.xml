@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">HelloCordova</string>
+    <string name="launcher_name">@string/app_name</string>
+    <string name="activity_name">@string/launcher_name</string>
+    <string name="facebook_app_id">604335030483490</string>
+    <string name="fb_login_protocol_scheme">fb604335030483490</string>
+</resources>

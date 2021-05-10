@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="657598582606-ll2g7trs94h7fk52j68d8kpor3thb2gs.apps.googleusercontent.com">
+    <title>MOBAlert</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="vuetify/mdiicons.css">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="vuetify/materialdesignicons.min.css">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="vuetify/vuetify.min.css">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+   <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+   <script src="jquery/jquery.min.js"></script>
+   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> -->
+   <script src="jquery/popper.min.js"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> -->
+    <script src="bootstrap/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+ <!--    https://www.lamudi.com.ph/journal/31-fire-safety-tips-time-fire-prevention-month-2017/  SAFETY TIPS -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script>
+        function loginWidthFB(){
+            alert("TAMA")
+            facebookConnectPlugin.login(["public_profile", "email"], function(result){
+                console.log(JSON.stringify(result));
+
+                facebookConnectPlugin.api("/me?fields=email,name,picture", ["public_profile", "email"], function(userData){
+                    alert(JSON.stringify(userData));
+                    console.log(JSON.stringify(userData));
+                }, function(error) {
+                    alert(JSON.stringify(error));
+                    console.log(JSON.stringify(error));
+                });
+            }, function(error){
+                alert(JSON.stringify(error));
+                console.log(JSON.stringify(error));
+            });
+        }
+    </script>
+
+    <script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>  
+    <style>
+        #loadingScreen{
+            height: 100vh;
+            width: 100%;
+            background-color: white;
+            position: fixed;
+            top: 0px; left: 0px;
+            z-index: 99999999999999;
+            display: none;
+        }
+        #loginScreen{
+            height: 100vh;
+            width: 100%;
+            background-color: white;
+            position: fixed;
+            top: 0px; left: 0px;
+            z-index: 99999999999999;
+            background-image: url('assets/img/login-bg.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            display: none;
+        }
+        #login-body{
+            background-color: rgba(0, 0, 0, 0.8);
+            height: 100vh;
+            width: 100%;
+            overflow: auto;
+        }
+
+        #login-card{
+            background-color: red; 
+            height: 300px;
+            width: 100%;
+        }
+
+        .card {
+            margin: auto;
+        }
+
+        .g-signin2{
+            width: 100%;
+        }
+        
+        .g-signin2 > div{
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body style="background-color: #f7f5f5" onload="onSignIn()">
+    <div id="loginScreen">
+        <div id="login-body" class="text-center">
+            <div>
+              <!--   <div>
+                    <div style="height: 140px;"></div>
+                    <div class="card" style="background-color: transparent; width: 90%">
+                        <div class="card-title text-center">
+                            <h4 class="text-white">Welcome to MOBAlert</h4><br>
+                            <img src="assets/img/icon/MOBALERT_LOGO.png" style="width: 90px" alt="">
+                            <p class="text-white">A Multi-user Online Bayan Alert</p>
+
+                        </div>
+                        <div class="card-body text-center">
+                            <div id="fb-root"></div>
+                            <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0" nonce="rneR8P6V"></script>
+                            <div class="fb-login-button" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="true"  data-use-continue-as="true" data-width="290"></div>
+                            <div style="margin-top: 20px; margin-left: 1px;" class="g-signin2" theme="light" data-onsuccess="onSignIn" data-longtitle="true" data-height="38" data-width="290"></div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <div id="loadingScreen" class="text-center">
+        <img src="assets/img/icon/MOBALERT_LOGO.png" class="ml-auto mr-auto" style="width: 100px; margin-top: 100px;" alt=""><br>
+        <img src="assets/img/gif/loading.gif" style="width: 90px; margin-top: 40px;" alt="">
+    </div>
+    <div id="app">
+        <v-app>
+        <div style="z-index: 999999999; background-color: #de0c3b; height: 55px; width: 100%; position: fixed; top:0px; left: 0px;">
+            <span style="color: white; position: absolute; top: 15px; left: 10px">MOBAlert</span>
+                <img style="position: absolute; right: 8px; width: 40px; height: 40px; margin-top: 8px; border-radius: 50%"
+                    id="statusbar-img"
+                    src="https://cdn.vuetifyjs.com/images/john.jpg"
+                    alt="John"
+                />
+        </div>
+       
+        <template>
+            <v-card>
+                <div style="height: 0px; width: 100%"></div>
+                <v-tabs-items v-model="tab" style="height: 100%; background-color: #f7f5f5">
+                    <v-tab-item>
+                        <v-parallax
+                            height="195"
+                            src="assets/img/parallax/parallax1.jpg"
+                            style="margin-top: 55px; width: 100%;"
+                        >
+                            <div style="background-color: rgba(0, 0, 0, 0.7); height: 195px; width: 120%; margin-left: -20px; margin-top: -2px; padding: 25px">
+                                <img src="assets/img/icon/MOBALERT_LOGO.png" style="margin-top: 1px; width: 60px;" alt="">
+                                <p class="text-white" style="margin-top: 0px; font-size: 12px; font-family: tahoma">Hello, Alvin</p>
+                                <p class="text-white" style="margin-top: -15px; font-size: 16px; font-family: tahoma">Be the savior of the environment!</p>
+                                <div class="text-center" style="background-color: transparent; width: 240px; height: 55px; padding: 5px; border-radius: 10px; position: absolute; right: 15px; top: 25px">
+                                <!--     <p id="location" style="font-size: 13px; color: black;"></p> -->
+                                <img src="assets/img/banner1.png" style="width: 100%" alt="">
+                                </div>
+                            </div>
+                        </v-parallax>
+                        <button class="btn btn-info" onclick="loginWidthFB()">LOGIN FB</button>
+                        <div id="fb-root"></div>
+                            <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0" nonce="rneR8P6V"></script>
+                            <div class="fb-login-button" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="true"  data-use-continue-as="true" data-width="290"></div>
+                        <br>
+                        
+                            <!-- 
+                        <div v-for="url in fburls">
+                            <div class="fb-post" 
+                                :data-href="url"
+                                style="width: 100%">
+                            </div>
+                        </div>     -->
+
+                        <div class="container" style="padding: 20px;">
+                           
+                                <div class="card" style="margin-top: -60px; height: 177px; width: 100%; border-radius: 10px; padding: 8 px">
+                                    <div class="row text-center" style="margin-top: 10px">
+                                        <div style="width: 50%" class="col-md-6 col-xs-6">
+                                            <img src="assets/img/icon/MOBALERT_LOGO.png" style="width: 37px;" alt="">&emsp;<span style="font-size: 18px; font-weight: bold">15 w</span>
+                                        </div>
+                                        <div style="width: 50%" class="col-md-6 col-xs-6">
+                                            <img src="assets/img/icon/MOBALERT_LOGO.png" style="width: 37px;" alt="">&emsp;<span style="font-size: 18px; font-weight: bold">22 s<spanp>
+                                        </div>
+                                    </div>
+                                    <div style="padding: 20px; margin-bottom: -20px; margin-top: -20px">
+                                        <div style="width: 100%; border: 1px solid #eee"></div>
+                                    </div>
+                                    <div class="row text-center" style="margin-top: 10px">
+                                        <div style="width: 50%" class="col-md-6 col-xs-6">
+                                            <img src="assets/img/icon/MOBALERT_LOGO.png" style="width: 37px;" alt="">&emsp;<span style="font-size: 18px; font-weight: bold">13 af</span>
+                                        </div>
+                                        <div style="width: 50%" class="col-md-6 col-xs-6">
+                                            <img src="assets/img/icon/MOBALERT_LOGO.png" style="width: 37px;" alt="">&emsp;<span style="font-size: 18px; font-weight: bold">6 2s</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                        </div>
+
+                        <div style="padding: 20px; margin-top: -20px">
+                        
+                        <template>
+                            <div class="text-center">
+                                <v-btn
+                                    color="#de0c3b"
+                                    class="text-white"
+                                    style="width: 100%; border-radius: 10px"
+                                    height="60"
+                                    @click="alertoverlay = !alertoverlay"
+                                >
+                                    <v-icon right dark>mdi-camera-outline</v-icon>&emsp;
+                                    Alert an inccident!
+                                </v-btn>
+                                <v-overlay :value="alertoverlay" opacity="0.9">
+                                <v-btn
+                                        icon
+                                        color="#ffffff"
+                                        onclick="getLocation();"
+                                    >
+                                        getLocation
+                                    </v-btn>
+                                    <v-btn
+                                        icon
+                                        color="#ffffff"
+                                        @click="alertoverlay = false"
+                                    >
+                                        <v-icon style="font-size: 90px">mdi-camera-plus-outline</v-icon>
+                                    </v-btn>
+                                    <p style="margin-top: 30px">Take a photo</p>
+                                </v-overlay>
+                            </div>
+                            </template>
+                        </div>
+                        <div style="margin-top: 20px; margin-left: 1px;" class="g-signin2" theme="light" data-onsuccess="onSignIn" data-longtitle="true" data-height="38" data-width="290"></div>
+                        <a class="btn btn-info" href="waze://https://waze.com/ul?ll=14.609053699999997,121.1322565700001&navigate=yes">NAVIGATE TO WAZE</a>
+                        <div style="padding: 20px; margin-top: -25px">
+ <!--                        <template>
+                            <v-card
+                                max-width="375"
+                                class="mx-auto"
+                            >
+                                <v-img
+                                src="https://cdn.vuetifyjs.com/images/lists/ali.png"
+                                height="300px"
+                                dark
+                                >
+                                <v-row class="fill-height">
+                                    <v-card-title>
+                                    <v-btn dark icon>
+                                        <v-icon>mdi-chevron-left</v-icon>
+                                    </v-btn>
+
+                                    <v-spacer></v-spacer>
+
+                                    <v-btn dark icon class="mr-4">
+                                        <v-icon>mdi-pencil</v-icon>
+                                    </v-btn>
+
+                                    <v-btn dark icon>
+                                        <v-icon>mdi-dots-vertical</v-icon>
+                                    </v-btn>
+                                    </v-card-title>
+
+                                    <v-spacer></v-spacer>
+
+                                    <v-card-title class="white--text pl-12 pt-12">
+                                    <div class="display-1 pl-12 pt-12">Ali Conners</div>
+                                    </v-card-title>
+                                </v-row>
+                                </v-img>
+
+                                <v-list two-line>
+                                <v-list-item @click="">
+                                    <v-list-item-icon>
+                                    <v-icon color="indigo">mdi-phone</v-icon>
+                                    </v-list-item-icon>
+
+                                    <v-list-item-content>
+                                    <v-list-item-title>(650) 555-1234</v-list-item-title>
+                                    <v-list-item-subtitle>Mobile</v-list-item-subtitle>
+                                    </v-list-item-content>
+
+                                    <v-list-item-icon>
+                                    <v-icon>mdi-message-text</v-icon>
+                                    </v-list-item-icon>
+                                </v-list-item>
+
+                                <v-list-item @click="">
+                                    <v-list-item-action></v-list-item-action>
+
+                                    <v-list-item-content>
+                                    <v-list-item-title>(323) 555-6789</v-list-item-title>
+                                    <v-list-item-subtitle>Work</v-list-item-subtitle>
+                                    </v-list-item-content>
+
+                                    <v-list-item-icon>
+                                    <v-icon>mdi-message-text</v-icon>
+                                    </v-list-item-icon>
+                                </v-list-item>
+
+                                <v-divider inset></v-divider>
+
+                                <v-list-item @click="">
+                                    <v-list-item-icon>
+                                    <v-icon color="indigo">mdi-email</v-icon>
+                                    </v-list-item-icon>
+
+                                    <v-list-item-content>
+                                    <v-list-item-title>aliconnors@example.com</v-list-item-title>
+                                    <v-list-item-subtitle>Personal</v-list-item-subtitle>
+                                    </v-list-item-content>
+                                </v-list-item>
+
+                                <v-list-item @click="">
+                                    <v-list-item-action></v-list-item-action>
+
+                                    <v-list-item-content>
+                                    <v-list-item-title>ali_connors@example.com</v-list-item-title>
+                                    <v-list-item-subtitle>Work</v-list-item-subtitle>
+                                    </v-list-item-content>
+                                </v-list-item>
+
+                                <v-divider inset></v-divider>
+
+                                <v-list-item @click="">
+                                    <v-list-item-icon>
+                                    <v-icon color="indigo">mdi-map-marker</v-icon>
+                                    </v-list-item-icon>
+
+                                    <v-list-item-content>
+                                    <v-list-item-title>1400 Main Street</v-list-item-title>
+                                    <v-list-item-subtitle>Orlando, FL 79938</v-list-item-subtitle>
+                                    </v-list-item-content>
+                                </v-list-item>
+                                </v-list>
+                            </v-card>
+                            </template> -->
+                            <p style="font-family: tahoma; font-weight: bold; font-size: 16px">Alerts</p>
+                            <div class="container" style="margin-top: -15px">
+                                <div class="row">
+                                <template>
+                                    <div class="text-center">
+                                        <v-bottom-sheet v-model="sheet">
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn
+                                            color="purple"
+                                            dark
+                                            v-on="on"
+                                            >
+                                            Open In
+                                            </v-btn>
+                                        </template>
+                                        <v-list>
+                                            <v-subheader>Open in</v-subheader>
+                                            <v-list-item
+                                                @click=""
+                                            >
+                                            <v-list-item-avatar>
+                                                <v-avatar size="32px" tile>
+                                                <img
+                                                    src="https://cdn.vuetifyjs.com/images/john.jpg"
+                                                    alt="Sample Title"
+                                                >
+                                                </v-avatar>
+                                            </v-list-item-avatar>
+                                            <v-list-item-title>Sample Title</v-list-item-title>
+                                            </v-list-item>
+                                            <v-list-item
+                                                @click=""
+                                            >
+                                            <v-list-item-avatar>
+                                                <v-avatar size="32px" tile>
+                                                <img
+                                                    src="https://cdn.vuetifyjs.com/images/john.jpg"
+                                                    alt="Sample Title"
+                                                >
+                                                </v-avatar>
+                                            </v-list-item-avatar>
+                                            <v-list-item-title>Sample Title</v-list-item-title>
+                                            </v-list-item>
+                                            <v-list-item
+                                                @click=""
+                                            >
+                                            <v-list-item-avatar>
+                                                <v-avatar size="32px" tile>
+                                                <img
+                                                    src="https://cdn.vuetifyjs.com/images/john.jpg"
+                                                    alt="Sample Title"
+                                                >
+                                                </v-avatar>
+                                            </v-list-item-avatar>
+                                            <v-list-item-title>Sample Title</v-list-item-title>
+                                            </v-list-item>
+                                        </v-list>
+                                        </v-bottom-sheet>
+                                    </div>
+                                </template>
+                                    <div style="width: 50%">
+                                        <a href="http://">
+                                            <v-card style="width: 97%">
+                                                <v-img
+                                                    src="assets/img/parallax/parallax1.jpg"
+                                                    class="white--text align-end"
+                                                    gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                                                    height="100px"
+                                                >
+                                                <v-card-title>text</v-card-title>
+                                                </v-img>
+                                                <v-card-actions>
+                                                <v-spacer></v-spacer>
+
+                                                <v-btn icon>
+                                                    <v-icon>mdi-heart</v-icon>
+                                                </v-btn>
+
+                                                <v-btn icon>
+                                                    <v-icon>mdi-bookmark</v-icon>
+                                                </v-btn>
+
+                                                <v-btn icon>
+                                                    <v-icon>mdi-share-variant</v-icon>
+                                                </v-btn>
+                                                </v-card-actions>
+                                            </v-card>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </v-tab-item>
+                    
+                    <v-tab-item>
+                        
+                        <div style="background-color: #05031c; height: 100%; width: 100%">
+                            <div style="z-index: 99999999999999; background-color: white; height: 50px; position: fixed; margin-top: -50px; left: 0px; padding: 15px; width: 100%">
+                                <p style="font-size: 18px">Alerts</p>
+                            </div>
+                            <v-container id="alertMap" class="child" style="height: 300px; width: 100%;">
+                            </v-container>
+                            <v-container>
+                                <v-btn
+                                    color="#0d0a36"
+                                    class="text-white"
+                                    style="width: 100%; border-radius: 10px; margin-bottom: 9px"
+                                    height="60"
+                                    >
+                                    <v-icon right dark>mdi-camera-outline</v-icon>&emsp;
+                                    take a photo of inccident
+                                </v-btn>
+                                <v-btn
+                                    color="#0d0a36"
+                                    class="text-white"
+                                    style="width: 100%; border-radius: 10px; margin-bottom: 9px"
+                                    height="60"
+                                    >
+                                    <v-icon right dark>mdi-camera-outline</v-icon>&emsp;
+                                    take a photo of inccident
+                                </v-btn>
+                            </v-container>
+                            
+                        </div>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <v-card flat>
+                        <v-card-title class="headline">tab 3</v-card-title>
+                        <v-card-text>
+                            <p>
+                            Maecenas ullamcorper, dui et placerat feugiat, eros pede varius nisi, condimentum viverra felis nunc et lorem. Sed hendrerit. Maecenas malesuada. Vestibulum ullamcorper mauris at ligula. Proin faucibus arcu quis ante.
+                            </p>
+
+                            <p class="mb-0">
+                            Etiam vitae tortor. Curabitur ullamcorper ultricies nisi. Sed magna purus, fermentum eu, tincidunt eu, varius ut, felis. Aliquam lobortis. Suspendisse potenti.
+                            </p>
+                        </v-card-text>
+                        </v-card>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <div style="z-index: 9999; background-color: white; height: 53px; position: fixed; margin-top: -40px; left: 0px; padding: 15px; width: 100%">
+                            <p style="font-size: 18px">News</p>
+                        </div>
+                        <div style="margin-top: 90px; margin-bottom: 50px">
+                            <template v-for="n in news">
+                                <v-card
+                                    class="mx-auto"
+                                    style="margin-bottom: 8px; width: 100%"
+                                >
+                                    <v-card-title>{{ n.title }}</v-card-title>
+                                    <v-img
+                                    class="white--text align-end"
+                                    height="200px"
+                                    :src="n.urlToImage"
+                                    >
+                                    </v-img>
+                                    <v-card-text class="text--primary">
+                                    <div>Whitehaven Beach</div>
+
+                                    <div>{{ n.description }}</div><br>
+                                    <div style="font-size: 9px;">Author: {{ n.author }}</div>
+                                    <div style="font-size: 9px;">Published at: {{ n.publishedAt }}</div>
+                                    </v-card-text>
+
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+
+                                        <v-btn icon>
+                                            <v-icon>mdi-heart</v-icon>
+                                        </v-btn>
+
+                                        <v-btn icon>
+                                            <v-icon>mdi-bookmark</v-icon>
+                                        </v-btn>
+
+                                        <v-btn icon>
+                                            <v-icon>mdi-share-variant</v-icon>
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </template>
+                        </div>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <v-container style="height: 108px; width: 100%"></v-container>
+                        <div style="z-index: 9999999; background-color: white; height: 53px; top: 50px; position: fixed; left: 0px; padding: 15px; width: 100%">
+                            <p style="font-size: 18px">Fire Prevention Tips</p>
+                        </div>
+                        <div v-for="tip in tips" style="margin-top: -5px">
+                            <div style="margin-bottom: 18px; background-color: white;">
+                                <v-container style="padding: 35px">
+                                    <v-row>
+                                        <p>{{ tip.number }}</p>
+                                        <p style="font-size: 12px">
+                                            {{ tip.desc }}
+                                        </p>
+                                        <img :src="tip.imageTip" style="width: 100%" alt="">
+                                    </v-row>
+                                </v-container>
+                            </div>
+                        </div>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <div style="height: 55px; width: 100%"></div>
+                        <v-container style="padding: 20px" class="bg-white">
+                            <v-row>
+                                <div class="text-center" style="position: relative; margin-top: -15px; background-color: #d11a0d; height: 55px; width: 80%">
+                                    <img src="assets/img/logo/bfp.png" style="width: 45px; position: absolute; left: 10px; top: 5px" alt="">
+                                    <span class="text-white" style="position: absolute; top: 8px; right: 10px; line-height: 2px; font-size: 9px;">BUREAU OF FIRE PROTECTION</span><br>
+                                    <span class="text-black" style="position: absolute; top: 18px; right: 10px; line-height: 2px; font-size: 7px;">Region 1</span><br>
+                                    <span class="text-black" style="position: absolute; top: 28px; right: 10px; line-height: 2px; font-size: 7px;">Province of La Union</span><br>
+                                    <span class="text-black" style="position: absolute; top: 38px; right: 10px; line-height: 2px; font-size: 7px;">AGOO FIRE STATION</span><br>
+                                    <span class="text-black" style="position: absolute; top: 48px; right: 10px; line-height: 2px; font-size: 7px;">San Agustin East Agoo, La Union</span><br>
+                                </div>
+                                <v-container class="text-center" style="margin-top: -15px; height: 50px; width: 20%">
+                                    <span style="font-size: 17px; color: #d11a0d">FSIC</span>
+                                </v-container>
+                            </v-row>
+                            <hr>
+                            <v-row>
+                                <v-container class="text-center">
+                                    <span style="font-size: 11px; font-weight: bold">FIRE SAFETY INSPECTION CERTIFICATE APPLICATION FORM</span>
+                                </v-container>
+                                <v-col cols="12">
+                                    <v-text-field
+                                        v-model="fsic.name"
+                                        label="Name of Owner"
+                                    ></v-text-field>
+                                    <v-text-field
+                                        v-model="fsic.establishment"
+                                        label="Establishment Name"
+                                    ></v-text-field>
+                                
+                                    <v-text-field
+                                        v-model="fsic.tradename"
+                                        label="Trade Name"
+                                    ></v-text-field>
+                                
+                                    <v-text-field
+                                        v-model="fsic.address"
+                                        label="Exact Address"
+                                    ></v-text-field>
+                                
+                                    <v-text-field
+                                        v-model="fsic.representative"
+                                        label="Authorized Representative(if applicant is not the owner)"
+                                    ></v-text-field>
+                                    <v-text-field
+                                        v-model="fsic.bin"
+                                        type="number"
+                                        label="Business Identification Number (BIN)"
+                                    ></v-text-field>
+                                    <v-text-field
+                                        v-model="fsic.tin"
+                                        type="number"
+                                        label="Tax Identification Number (TIN)"
+                                    ></v-text-field>
+                                    <v-text-field
+                                        v-model="fsic.phone"
+                                        type="number"
+                                        label="Contact Number"
+                                    ></v-text-field>
+                                    <v-text-field
+                                        v-model="fsic.email"
+                                        type="email"
+                                        label="Email Address"
+                                    ></v-text-field>
+                                    <v-select 
+                                        v-model="fsic.occupancy"
+                                        :items="occupancies" 
+                                        attach label="Type of Occupancy"
+                                    ></v-select>
+                                </v-col>
+                                <v-col cols="6" style="margin-top: -25px">
+                                    <v-text-field
+                                        v-model="fsic.floor"
+                                        type="number"
+                                        label="Total Fllor Area"
+                                    ></v-text-field>
+                                    
+                                </v-col>
+                                <v-col cols="6" style="margin-top: -25px">
+                                    <v-text-field
+                                        v-model="fsic.storey"
+                                        type="number"
+                                        label="No. of Storey"
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col cols="12" style="margin-top: -30px; margin-bottom: 30px">
+                                    <v-btn color="#de0c3b" @click="addFsic()" dark x-large style="width: 100%">
+                                        <v-icon left color="#ffffff">mdi-send</v-icon>Submit Form
+                                    </v-btn>
+                                </v-col>
+                                
+                                    
+                            </v-row>
+                        </v-container>
+                    </v-tab-item>
+                        <v-tab-item>
+                            <v-card flat>
+                                <template>
+                                    <v-navigation-drawer
+                                    style="width: 100%; margin-bottom: 50px"
+                                    :value="true"
+                                    stateless
+                                    >
+                                        <v-img src="https://cdn.vuetifyjs.com/images/parallax/material.jpg">
+                                            <v-row align="end" class="lightbox white--text pa-2 fill-height">
+                                            <v-col>
+                                                <div class="subheading"></div>
+                                                <div class="body-1"></div>
+                                            </v-col>
+                                            </v-row>
+                                        </v-img>
+
+                                        <v-list>
+                                            <template>
+                                                <v-list-item @click>
+                                                    <v-list-item-action>
+                                                    <v-icon>mdi-logout-variant</v-icon>
+                                                    </v-list-item-action>
+                                                    <v-list-item-title>Share</v-list-item-title>
+                                                </v-list-item>
+                                                <v-list-item @click>
+                                                    <v-list-item-action>
+                                                    <v-icon>mdi-logout-variant</v-icon>
+                                                    </v-list-item-action>
+                                                    <v-list-item-title>Share</v-list-item-title>
+                                                </v-list-item>
+                                                <v-list-item @click>
+                                                    <v-list-item-action>
+                                                    <v-icon>mdi-logout-variant</v-icon>
+                                                    </v-list-item-action>
+                                                    <v-list-item-title>Share</v-list-item-title>
+                                                </v-list-item>
+                                                <v-list-item @click>
+                                                    <v-list-item-action>
+                                                    <v-icon>mdi-logout-variant</v-icon>
+                                                    </v-list-item-action>
+                                                    <v-list-item-title>Share</v-list-item-title>
+                                                </v-list-item>
+                                                <v-list-item @click>
+                                                    <v-list-item-action>
+                                                    <v-icon>mdi-logout-variant</v-icon>
+                                                    </v-list-item-action>
+                                                    <v-list-item-title>Share</v-list-item-title>
+                                                </v-list-item>
+                                                <v-list-item @click>
+                                                    <v-list-item-action>
+                                                    <v-icon>mdi-logout-variant</v-icon>
+                                                    </v-list-item-action>
+                                                    <v-list-item-title>Share</v-list-item-title>
+                                                </v-list-item>
+                                                <v-list-item @click>
+                                                    <v-list-item-action>
+                                                    <v-icon>mdi-logout-variant</v-icon>
+                                                    </v-list-item-action>
+                                                    <v-list-item-title>Share</v-list-item-title>
+                                                </v-list-item>
+                                                <v-list-item @click>
+                                                    <v-list-item-action>
+                                                    <v-icon>mdi-logout-variant</v-icon>
+                                                    </v-list-item-action>
+                                                    <v-list-item-title>Share</v-list-item-title>
+                                                </v-list-item>
+                                            </template>
+                                        </v-list>
+                                    </v-navigation-drawer>
+                                </template>
+
+                            </v-card>
+                        </v-tab-item>
+    
+               <!--      <v-tab-item
+                        :key="2"
+                        :value="tab-2"
+                    >
+                        <v-card flat>
+                            <v-card-text>tab2</v-card-text>
+                        </v-card>
+                    </v-tab-item>
+                    <v-tab-item
+                        :key="3"
+                        :value="tab-3"
+                    >
+                        <v-card flat>
+                            <v-card-text>tab3</v-card-text>
+                        </v-card>
+                    </v-tab-item>
+                    <v-tab-item
+                        :key="4"
+                        :value="tab-4"
+                    >
+                        <v-card flat>
+                            <v-card-text>tab4</v-card-text>
+                        </v-card>
+                    </v-tab-item>
+                    <v-tab-item
+                        :key="5"
+                        :value="tab-5"
+                    >
+                        <v-card flat>
+                            <v-card-text>tab5</v-card-text>
+                        </v-card>
+                    </v-tab-item> -->
+                </v-tabs-items>
+                <v-tabs
+                    v-model="tab"
+                    background-color="#de0c3b"
+                    dark
+                    mobile-breakpoint
+                    icons-and-text
+                    height="50"
+                    fixed-tabs
+                    centered
+                    style="position: fixed; bottom: 0px; left: 0px; font-size: 10px; border-radius: 0px;"
+                >
+                    <v-tabs-slider></v-tabs-slider>
+
+                    <v-tab :key="1" style="font-size: 7px">
+                        home
+                        <v-icon>mdi-home-outline</v-icon>
+                    </v-tab>
+
+                    <v-tab :key="2" style="font-size: 7px">
+                        alerts
+                        <v-icon>mdi-fire-truck</v-icon>
+                    </v-tab>
+
+                    <v-tab :key="3" style="font-size: 7px">
+                        Profile
+                        <v-icon>mdi-account-outline</v-icon>
+                    </v-tab>
+                    <v-tab :key="4" style="font-size: 7px">
+                        News
+                        <v-icon>mdi-newspaper-variant-multiple-outline</v-icon>
+                    </v-tab>
+                    <v-tab :key="4" style="font-size: 7px">
+                        Tips
+                        <v-icon>mdi-lightbulb-on-outline</v-icon>
+                    </v-tab>
+                    <v-tab :key="5" style="font-size: 7px">
+                        Fsic
+                        <v-icon>mdi-text-box-multiple-outline</v-icon>
+                    </v-tab>
+                    <v-tab :key="6" style="font-size: 7px">
+                        menu
+                        <v-icon>mdi-menu</v-icon>
+                    </v-tab>
+                </v-tabs>
+            </v-card>
+        </template>
+            <!-- <template>
+                <v-card
+                    class="mx-auto"
+                    max-width="400"
+                >
+                    <v-img
+                    class="white--text align-end"
+                    height="200px"
+                    src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                    >
+                    <v-card-title>Top 10 Australian beaches</v-card-title>
+                    </v-img>
+
+                    <v-card-subtitle class="pb-0">Number 10</v-card-subtitle>
+
+                    <v-card-text class="text--primary">
+                    <div>Whitehaven Beach</div>
+
+                    <div>Whitsunday Island, Whitsunday Islands</div>
+                    </v-card-text>
+
+                    <v-card-actions>
+                    <v-btn
+                        color="orange"
+                        text
+                    >
+                        Share
+                    </v-btn>
+
+                    <v-btn
+                        color="orange"
+                        text
+                    >
+                        Explore
+                    </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </template> -->
+            
+
+        </v-app>
+        
+    </div>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+
+    <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+   <!--  <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
+ -->
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+ <!--    <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-analytics.js"></script> -->
+
+    <script>
+    // Your web app's Firebase configuration
+   
+/*     firebase.analytics(); */
+    </script>
+    
+    <script src="assets/js/getLocation.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script> -->
+    <script src="vue/vue.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script> -->
+    <script src="vuetify/vuetify.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script> -->
+    <script src="axios/axios.js"></script>
+    <script src="vue/app.js"></script>
+
+    <script>
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            var id = profile.getId();
+            console.log('Name: ' + profile.getName());
+            var name = profile.getName();
+            console.log('Image URL: ' + profile.getImageUrl());
+            var avatar = profile.getImageUrl();
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+            var email = profile.getEmail();
+
+            $("#statusbar-img").attr("src", avatar);
+
+            $("#loginScreen").css("display", "none");
+            $("#loadingScreen").css("display", "none"); 
+            
+    /* 
+            document.getElementById("session_id").setAttribute('value', 'Hello alvin'); */
+            $("#session_name").val(name)
+            $("#session_email").val(email)
+            $("#session_picture").val(avatar)
+            /* window.location.replace('app.html') */
+        /*     $('#email').val(profile.getEmail());
+            $('#password').val(profile.getId()); */
+/* 
+            alert(profile.getId());
+            alert(profile.getImageUrl()); */
+
+            /* window.location.replace('http://localhost/mobalert/examples/home.php'); */
+            
+        }
+
+
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function() {
+                console.log('User signed out.');
+            });
+        }
+
+        
+    </script>
+
+    <script>
+        // This is called with the results from from FB.getLoginStatus().
+        function statusChangeCallback(response) {
+            console.log('statusChangeCallback');
+            console.log(response);
+            // The response object is returned with a status field that lets the
+            // app know the current login status of the person.
+            // Full docs on the response object can be found in the documentation
+            // for FB.getLoginStatus().
+            if (response.status === 'connected') {
+                setTimeout(function(){ 
+                    $("#loginScreen").css("display", "none");
+                    $("#loadingScreen").css("display", "none"); }, 1000);
+                // Logged into your app and Facebook.
+                testAPI();
+            } else if (response.status === 'not_authorized') {
+               
+                // The person is logged into Facebook, but not your app.
+                /* document.getElementById('status').innerHTML = 'Login with Facebook '; */
+            } else {
+               /*  setTimeout(function(){ 
+                    $("#loginScreen").css("display", "block");
+                    $("#loadingScreen").css("display", "none"); }, 1000); */
+                // The person is not logged into Facebook, so we're not sure if
+                // they are logged into this app or not.
+                /* document.getElementById('status').innerHTML = 'Login with Facebook '; */
+            }
+        }
+        // This function is called when someone finishes with the Login
+        // Button. See the onlogin handler attached to it in the sample
+        // code below.
+        function checkLoginState() {
+            FB.getLoginStatus(function (response) {
+                statusChangeCallback(response);
+            });
+        }
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '604335030483490',
+                cookie: true, // enable cookies to allow the server to access
+                // the session
+                xfbml: true, // parse social plugins on this page
+                version: 'v2.2' // use version 2.2
+            });
+            // Now that we've initialized the JavaScript SDK, we call
+            // FB.getLoginStatus(). This function gets the state of the
+            // person visiting this page and can return one of three states to
+            // the callback you provide. They can be:
+            //
+            // 1. Logged into your app ('connected')
+            // 2. Logged into Facebook, but not your app ('not_authorized')
+            // 3. Not logged into Facebook and can't tell if they are logged into
+            // your app or not.
+            //
+            // These three cases are handled in the callback function.
+
+            FB.getLoginStatus(function (response) {
+                statusChangeCallback(response);
+            });
+        };
+        // Load the SDK asynchronously
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        // Here we run a very simple test of the Graph API after login is
+        // successful. See statusChangeCallback() for when this call is made.
+        function testAPI() {
+            console.log('Welcome! Fetching your information.... ');
+            FB.api('/me?fields=id, first_name,email, name, picture', function (response) {
+                console.log('Successful login for: ' + response.name);
+                $("#loginScreen").css("display", "none");
+                $("#loadingScreen").css("display", "none"); 
+                var pic = response.picture.data.url;
+                var name = response.name;
+                var email = response.email;
+                $("#statusbar-img").attr("src", pic);
+
+                var pota = document.getElementById("session_id");
+                pota.setAttribute('value', 'defaultValue'); 
+          /*       $("#session_id").val(response.id); */
+                $("#session_name").val(response.name);
+                $("#session_email").val(response.email);
+                $("#session_picture").val(response.picture.data.url);
+           /*      window.open("google.com");
+                $("#loginScreen").css("display", "none");
+                $("#loadingScreen").css("display", "none"); */
+                
+                //window.location.replace('home.php?email=' + response.email + '&fname=' + response.first_name + '&user_id=' + response.id + '&name=' + response.name + '&pic=' + pic);
+                //document.getElementById("status").innerHTML = '<p>Welcome '+response.name+'! <a href="dashboard.php?&email='+ response.email +'&fname='+ response.first_name +'&user_id='+response.id+'&pic='+ response.picture.data.url +'">Continue with facebook login</a></p>'
+            });
+        }
+
+
+        function out() {
+            FB.logout(function (response) {
+                FB.Auth.setAuthResponse(null, 'unknown');
+                //alertalert(response)
+            });
+        }
+    </script>
+        
+        <script type="text/javascript" src="js/index.js"></script>e
+
+</body>
+
+</html>

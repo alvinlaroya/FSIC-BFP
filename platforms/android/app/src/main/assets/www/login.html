@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="657598582606-ll2g7trs94h7fk52j68d8kpor3thb2gs.apps.googleusercontent.com">
+    <title>MOBAlert</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="vuetify/mdiicons.css">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="vuetify/materialdesignicons.min.css">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="vuetify/vuetify.min.css">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+    <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+    <script src="jquery/jquery.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> -->
+    <script src="jquery/popper.min.js"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> -->
+    <script src="bootstrap/bootstrap.min.js"></script>
+    <!--    https://www.lamudi.com.ph/journal/31-fire-safety-tips-time-fire-prevention-month-2017/  SAFETY TIPS -->
+    <link rel="stylesheet" href="assets/css/index.css">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+</head>
+
+<body style="background-color: #f7f5f5;">
+    <div id="login">
+        <v-app>
+            <div id="login-body">
+                <div>
+                    <div>
+                        <div class="card" style="background-color: transparent; width: 90%">
+                            <div class="card-title text-center">
+                                <h4 class="text-white">Welcome to MOBAlert</h4><br>
+                                <img src="assets/img/icon/MOBALERT_LOGO.png" style="width: 90px" alt="">
+                                <p class="text-white">A Multi-user Online Bayan Alert</p>
+
+                            </div>
+                            <div class="card-body text-center">
+                                <div id="fb-root"></div>
+                                <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0" nonce="rneR8P6V"></script>
+                                <div class="fb-login-button" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="true"  data-use-continue-as="true" data-width="290"></div>
+                                <div style="margin-top: 20px; margin-left: 1px;" class="g-signin2" theme="light" data-onsuccess="onSignIn" data-longtitle="true" data-height="38" data-width="290"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </v-app>
+    </div>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script> -->
+    <script src="vue/vue.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script> -->
+    <script src="vuetify/vuetify.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script> -->
+    <!--  <script src="axios/axios.js"></script> -->
+    <!--  <script src="vue/app.js"></script> -->
+    <script>
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+            /* window.location.replace('app.html') */
+        /*     $('#email').val(profile.getEmail());
+            $('#password').val(profile.getId()); */
+/* 
+            alert(profile.getId());
+            alert(profile.getImageUrl()); */
+
+            /* window.location.replace('http://localhost/mobalert/examples/home.php'); */
+            
+        }
+
+
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function() {
+                console.log('User signed out.');
+            });
+        }
+
+        
+    </script>
+
+    <script>
+        // This is called with the results from from FB.getLoginStatus().
+        function statusChangeCallback(response) {
+            console.log('statusChangeCallback');
+            console.log(response);
+            // The response object is returned with a status field that lets the
+            // app know the current login status of the person.
+            // Full docs on the response object can be found in the documentation
+            // for FB.getLoginStatus().
+            if (response.status === 'connected') {
+                // Logged into your app and Facebook.
+                testAPI();
+            } else if (response.status === 'not_authorized') {
+                // The person is logged into Facebook, but not your app.
+                /* document.getElementById('status').innerHTML = 'Login with Facebook '; */
+            } else {
+                // The person is not logged into Facebook, so we're not sure if
+                // they are logged into this app or not.
+                /* document.getElementById('status').innerHTML = 'Login with Facebook '; */
+            }
+        }
+        // This function is called when someone finishes with the Login
+        // Button. See the onlogin handler attached to it in the sample
+        // code below.
+        function checkLoginState() {
+            FB.getLoginStatus(function (response) {
+                statusChangeCallback(response);
+            });
+        }
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '604335030483490',
+                cookie: true, // enable cookies to allow the server to access
+                // the session
+                xfbml: true, // parse social plugins on this page
+                version: 'v2.2' // use version 2.2
+            });
+            // Now that we've initialized the JavaScript SDK, we call
+            // FB.getLoginStatus(). This function gets the state of the
+            // person visiting this page and can return one of three states to
+            // the callback you provide. They can be:
+            //
+            // 1. Logged into your app ('connected')
+            // 2. Logged into Facebook, but not your app ('not_authorized')
+            // 3. Not logged into Facebook and can't tell if they are logged into
+            // your app or not.
+            //
+            // These three cases are handled in the callback function.
+
+            FB.getLoginStatus(function (response) {
+                statusChangeCallback(response);
+            });
+        };
+        // Load the SDK asynchronously
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        // Here we run a very simple test of the Graph API after login is
+        // successful. See statusChangeCallback() for when this call is made.
+        function testAPI() {
+            console.log('Welcome! Fetching your information.... ');
+            FB.api('/me?fields=id, first_name,email, name, picture', function (response) {
+                console.log('Successful login for: ' + response.name);
+                var pic = response.picture.data.url;
+                console.log(response)
+                //window.location.replace('home.php?email=' + response.email + '&fname=' + response.first_name + '&user_id=' + response.id + '&name=' + response.name + '&pic=' + pic);
+                //document.getElementById("status").innerHTML = '<p>Welcome '+response.name+'! <a href="dashboard.php?&email='+ response.email +'&fname='+ response.first_name +'&user_id='+response.id+'&pic='+ response.picture.data.url +'">Continue with facebook login</a></p>'
+            });
+        }
+
+
+        function out() {
+            alert("POTA")
+            FB.logout(function (response) {
+                FB.Auth.setAuthResponse(null, 'unknown');
+                //alertalert(response)
+            });
+        }
+    </script>
+    
+</body>
+
+</html>

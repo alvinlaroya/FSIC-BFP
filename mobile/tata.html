@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="padding: 40px">
+    <img src="assets/img/avatar.jpg" alt="">
+    <img data-src="assets/img/avatar.jpg" alt="" style="width: 100%;">
+    <img data-src="assets/img/avatar.jpg" alt="" style="width: 100%; margin-top: 1000px">
+
+
+    <script>
+        var observer = new IntersectionObserver(function (items, self){
+            for(var a=0; a < items.length; a++){
+                if(items[a].isIntersecting){
+                    console.log(items[a].target);
+
+                    //var src = items[a].target.getAttribute("data-src");
+                    items[a].target.setAttribute('src', items[a].target.getAttribute("data-src"));
+                    self.unobserve(items[a].target);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
