@@ -1,7 +1,5 @@
 <?php
     /* require_once '../config.php'; */
-    require_once '../vendor/autoload.php';
-
     require_once('../includes/functions.php');
     require_once('../includes/connection.php');
 

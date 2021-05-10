@@ -27,7 +27,7 @@ The above copyright notice and this permission notice shall be included in all c
   <link rel="icon" type="image/png" href="../assets/img/logo/bfp.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    MOBAlert: A Multi-user Online Bayan Alert
+  FSIC Online Application BFP Agoo, La Union
   </title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -66,7 +66,7 @@ The above copyright notice and this permission notice shall be included in all c
 </head>
 
 <body onload="window.history.forward();">
-  <div class="wrapper ">
+  <div>
     <div class="sidebar" data-color="purple" data-background-color="black" data-image="../assets/img/sidebar-1.jpg">
       <!--
         Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"

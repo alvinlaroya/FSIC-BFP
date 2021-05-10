@@ -180,7 +180,7 @@
         global $con;
         $new_id = $_POST['id'];
 
-        $query = "UPDATE tbl_bfp set archive_unarchive = '0' WHERE id = '$new_id'";
+        $query = "UPDATE tbl_bfp SET archive_unarchive = '0' WHERE id = '$new_id'";
 
         $result = mysqli_query($con, $query);
 

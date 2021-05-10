@@ -819,7 +819,7 @@
                     </div>
                 </div>
                 <div class="text-center" style="margin-bottom: -20px">
-                    <p style="font-size: 13px;">MOBAlert: A Multi-user Online Bayan Alert</p>
+                    <p style="font-size: 13px;">FSIC Online Application BFP Agoo, La Union</p>
                 </div>
                 <div class="text-center" style="padding: 30px">
                     <input class="input-username" type="text" style="width: 100%" placeholder="Your email" />
@@ -848,7 +848,7 @@
                     </div>
                 </div>
                 <div class="text-center" style="margin-bottom: -20px">
-                    <p style="font-size: 13px;">MOBAlert: A Multi-user Online Bayan Alert REGISTER</p>
+                    <p style="font-size: 13px;">FSIC Online Application BFP Agoo, La Union REGISTER</p>
                 </div>
                 <div class="text-center" style="padding: 30px">
                     <input class="input-username" type="text" style="width: 100%" placeholder="Your email" />

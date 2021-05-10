@@ -114,7 +114,7 @@ if (isset($_SESSION['userid'])) {
             <source src="assets/video/background.mp4" type="video/mp4">
             Your browser does not support HTML5 video.
         </video>
-        <div style="position: fixed; right: 0; bottom: 0; min-width: 100%; min-height: 100%; background-color: rgba(0, 0, 0, 0.3)"></div>
+        <!-- <div style="position: fixed; right: 0; bottom: 0; min-width: 100%; min-height: 100%; background-color: rgba(0, 0, 0, 0.3)"></div> -->
         <div class="content-center">
             <div id="card" class="col-lg-6 col-md-12 ml-auto mr-auto">
                 <div class="card text-center">

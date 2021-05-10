@@ -28,7 +28,7 @@
                 <div id="card" class="ml-auto mr-auto" style="position: fixed; top: 50px; left: 10%; width: 80%;">
                     <div class="card">
                         <div class="card-header" style="background-color: #e60000;">
-                        <p style="font-size: 9px; color: white" class="card-category">MOBAlert: A Multi-user Online Bayan Alert</p>
+                        <p style="font-size: 9px; color: white" class="card-category">FSIC Online Application BFP Agoo, La Union</p>
                         </div>
                         <div class="card-body">
                             <div class="container">

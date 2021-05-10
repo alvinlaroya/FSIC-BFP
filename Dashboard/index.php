@@ -27,7 +27,7 @@ The above copyright notice and this permission notice shall be included in all c
   <link rel="icon" type="image/png" href="../assets/img/logo/bfp.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    MOBAlert: A Multi-user Online Bayan Alert
+  FSIC Online Application BFP Agoo, La Union
   </title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -71,7 +71,7 @@ The above copyright notice and this permission notice shall be included in all c
 </head>
 
 <body onload="window.history.forward();">
-  <div class="wrapper ">
+  <div>
     <div class="sidebar" data-color="purple" data-background-color="black" data-image="../assets/img/sidebar-1.jpg">
       <!--
         Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
@@ -192,7 +192,7 @@ The above copyright notice and this permission notice shall be included in all c
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row" style="margin-top: -30px">
               <div class="col-md-12">
                 <div class="card">
                   <div class="card-header card-header-primary">
@@ -212,7 +212,7 @@ The above copyright notice and this permission notice shall be included in all c
                             
                             <label class="bmd-label-floating">Establishment:</label>
                             <h4 style="font-weight: bold">{{ fsic.establishment }}</h4>
-                            <div style="position: absolute; top: 10px; right: 10px">
+                            <!-- <div style="position: absolute; top: 10px; right: 10px">
                               <v-btn class="mx-2" small fab dark color="#a514c9" @click="viewApplicant(fsic)" style="width: 35px; height: 35px; display: block; margin-top: 5px">
                                 <v-icon dark style="font-size: 15px">mdi-view-grid-plus-outline</v-icon>
                               </v-btn>
@@ -224,7 +224,23 @@ The above copyright notice and this permission notice shall be included in all c
                                   <v-icon dark style="font-size: 15px">mdi-text-box-remove-outline</v-icon>
                                 </v-btn>
                              </span>
-                            </div>
+                            </div> -->
+                            <div class="dropdown" style="position: absolute; top: 10px; right: -20px">
+                                <button class="btn dropdown-toggle shadow-none" type="button" id="dropdownMenuButton" style="background-color: transparent; box-shadow: none" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <v-icon>mdi-dots-vertical</v-icon>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <a class="dropdown-item" @click="viewApplicant(fsic)">
+                                   <v-icon style="font-size: 15px">mdi-view-grid-plus-outline</v-icon> Show Application
+                                  </a>
+                                  <a class="dropdown-item" @click="confirmApplicant(fsic)">
+                                    <v-icon style="font-size: 15px">mdi-briefcase-check-outline</v-icon> Approve Application
+                                  </a>
+                                  <a class="dropdown-item" @click="pdf(item)">
+                                    <v-icon style="font-size: 15px">mdi-text-box-remove-outline</v-icon> Decline Application
+                                  </a>
+                                </div>
+                              </div>
                           </v-card>
                         </template><br>
                       </div>

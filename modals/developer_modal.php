@@ -2,7 +2,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title text-black" id="exampleModalLabel">DMMMSU SLUC BSCS Thesis Group</h5>
+        <h5 class="modal-title text-black" id="exampleModalLabel">DMMMSU SLUC BSCS Thesis Developer</h5>
         <button type="button" class="close text-black" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -20,9 +20,15 @@
                         <div class="card-body">
                         <h6 class="card-category text-gray">Thesis Leader / Developer</h6>
                         <h4 class="card-title">Alvin P. Laroya</h4>
-                        <p class="card-description">
-                            Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
-                        </p>
+                        <span class="card-description">
+                            Email: alvinreggaelaroya@gmail.com
+                        </span><br>
+                        <span class="card-description">
+                            Contact: 09388566223
+                        </span><br>
+                        <span class="card-description">
+                            Address: San Agustin East Agoo, La Union
+                        </span>
                         </div>
                     </div>
                 </div>
